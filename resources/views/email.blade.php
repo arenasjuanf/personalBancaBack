@@ -1,0 +1,1 @@
+<p>Pin de recuperacion: {{$pin}}</p>
