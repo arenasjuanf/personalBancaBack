@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\DB;
 
 class MontosController extends Controller
 {
+    public function __construct() {
+        $this->middleware('cors');
+    }
     /**
      * Display a listing of the resource.
      *

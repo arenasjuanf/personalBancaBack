@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 
 class AhorrosController extends Controller
 {
+
+    public function __construct() {
+        $this->middleware('cors');
+    }
     /**
      * Display a listing of the resource.
      *

@@ -11,6 +11,9 @@ use Mail;
 
 class UsuariosController extends Controller
 {
+	public function __construct() {
+		$this->middleware('cors');
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
