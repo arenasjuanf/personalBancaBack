@@ -93,7 +93,7 @@ class AhorrosController extends Controller
         $sql = Ahorros::where([
             ['fk_id_usuario', $usuario],
             ['tipo', $tipo]
-        ])->get();
+        ])->orderBy("created_at", "ASC")->get();
 
         return $sql;
     }

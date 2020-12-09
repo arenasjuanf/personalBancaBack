@@ -89,7 +89,7 @@ class MontosController extends Controller
     }
 
     public function datosMontos($idAhorro){
-        $montos = Montos::where("fk_id_ahorro", $idAhorro)->orderBy('valor','asc')->get();
+        $montos = Montos::where("fk_id_ahorro", $idAhorro)->orderBy('valor','asc')->orderBy('created_at', 'asc')->get();
 
         return $montos;
     }
