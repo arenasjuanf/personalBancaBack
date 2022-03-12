@@ -23,10 +23,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::middleware(['guest'])->group(function () {
-    //Rutas a las que se permitirá acceso
-    /* Route::get('login/{nroDoc}/{pass}', 'UserController@inicioSesion'); */
-    /* Route::get('listaPlatos', 'PlatosController@listaPlatos'); */
-    /* Route::get('validarToken/{tiempoToken}', 'UserController@validarToken');  */
     Route::post('registrar', [UsuariosController::class, 'registrar']);
     Route::get('login/{email}/{pass}', [UsuariosController::class, 'iniciarSesion']);
     
