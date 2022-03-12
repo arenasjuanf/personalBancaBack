@@ -7,6 +7,7 @@ Made with laravel
 
 ```bash
 composer install
+php artisan migrate:refresh --seed
 php artisan serve
 ```
 
