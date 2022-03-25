@@ -121,7 +121,7 @@ class AhorrosController extends Controller
             $ahorro->ahorrado = '0';
             $ahorro->intervalo = $intervalo;
             $ahorro->tipo_ahorro = $request->tipoAhorro;
-            $ahorro->fechaMeta = isset($request->formfechaLimite) ? date("Y-m-d", strtotime(str_replace('/', '-', $request->formfechaLimite))) : NULL;
+            $ahorro->fechaMeta = isset($request->fechaMeta) ? date("Y-m-d", strtotime(str_replace('/', '-', $request->fechaMeta))) : NULL;
 
             if ($ahorro->save()) {
                 if($request->tipoAhorro == 2){
@@ -158,13 +158,11 @@ class AhorrosController extends Controller
 
         DB::beginTransaction();
 
-
         $montos = Montos::where('fk_id_ahorro', $request->idAhorro);
 
         if ($montos->count() > 0) {
             if ($montos->delete()) {
                 $ahorro = Ahorros::where('id', $request->idAhorro)->delete();
-                
                 if ($ahorro) {
                     DB::commit();
                     $resp["success"] = true;

@@ -98,13 +98,14 @@ class MontosController extends Controller
         $resp["success"] = false;
         $ahorrado = 0;
 
+    
+
         $ahorro = Ahorros::find($request->idAhorro);
 
         if (!empty($ahorro)) {
             DB::beginTransaction();
 
-            $ahorrado = $ahorro->ahorrado + str_replace('.', '', $_POST["monto"]);
-
+            $ahorrado = $ahorro->ahorrado + $request->monto;
             $monto = new Montos;
             $monto->fk_id_ahorro = $request->idAhorro;
             $monto->valor = str_replace('.', '', $request->monto);
