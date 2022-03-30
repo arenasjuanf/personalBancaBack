@@ -197,8 +197,8 @@ class AhorrosController extends Controller
         $deuda = new Ahorros;
 
         $deuda->fk_id_usuario = $request->fk_id_usuario;
-        $deuda->nombre = $request->nombreDeuda;
-        $deuda->objetivo = str_replace('.', '', $request->deuda);
+        $deuda->nombre = $request->nombre;
+        $deuda->objetivo = str_replace('.', '', $request->objetivo);
         $deuda->ahorrado = '0';
         $deuda->tipo_ahorro = 1;
         $deuda->fechaMeta = isset($request->formfechaLimite) ? date("Y-m-d", strtotime(str_replace('/', '-', $_POST["formfechaLimite"]))) : NULL;
