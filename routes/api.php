@@ -30,6 +30,7 @@ Route::middleware(['guest'])->group(function () {
     Route::get('traerAhorros/{usuario}/{tipo}', [AhorrosController::class, 'traerAhorros']);
     Route::get('datosAhorro/{idAhorro}', [AhorrosController::class, 'datosAhorro']);
     Route::post('agregarAhorro', [AhorrosController::class, 'agregarAhorro']);
+    Route::post('actualizarAhorro', [AhorrosController::class, 'actualizarAhorro']);
     Route::post('agregarDeuda', [AhorrosController::class, 'agregarDeuda']);
     Route::delete('borrarAhorro', [AhorrosController::class, 'borrarAhorro']);
 

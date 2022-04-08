@@ -18,76 +18,9 @@ class AhorrosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index(){
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Ahorros  $ahorros
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Ahorros $ahorros)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Ahorros  $ahorros
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Ahorros $ahorros)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Ahorros  $ahorros
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Ahorros $ahorros)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Ahorros  $ahorros
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Ahorros $ahorros)
-    {
-        //
-    }
 
     public function traerAhorros($usuario, $tipo){
         $sql = Ahorros::where([
@@ -121,7 +54,7 @@ class AhorrosController extends Controller
             $ahorro->ahorrado = '0';
             $ahorro->intervalo = $intervalo;
             $ahorro->tipo_ahorro = $request->tipoAhorro;
-            $ahorro->fechaMeta = isset($request->fechaMeta) ? date("Y-m-d", strtotime(str_replace('/', '-', $request->fechaMeta))) : NULL;
+            $ahorro->fechaMeta = isset($request->fechaMeta) ? $request->fechaMeta : NULL;
 
             if ($ahorro->save()) {
                 if($request->tipoAhorro == 2){
@@ -152,6 +85,30 @@ class AhorrosController extends Controller
 
         return $resp;
     }
+
+    public function actualizarAhorro(Request $request){
+        $resp['msj'] = 'Ahorro no actualizado';
+        $resp['success'] = False;
+
+        $ahorro = Ahorros::find($request->id);
+
+        if($ahorro){
+            $ahorro->nombre = $request->nombre;
+            $ahorro->fechaMeta = isset($request->fechaMeta) ? $request->fechaMeta : NULL;
+    
+            $updated = $ahorro->save();
+    
+            if($updated){
+                $resp['msj'] = 'Ahorro actualizado';
+                $resp['success'] = True;
+            }
+        }else{
+            $resp['msj'] = 'Ahorro no encontrado';
+        }
+
+        return $resp;
+    }
+         
 
     public function borrarAhorro(Request $request){
         $resp["success"] = false;
@@ -201,7 +158,7 @@ class AhorrosController extends Controller
         $deuda->objetivo = str_replace('.', '', $request->objetivo);
         $deuda->ahorrado = '0';
         $deuda->tipo_ahorro = 1;
-        $deuda->fechaMeta = isset($request->formfechaLimite) ? date("Y-m-d", strtotime(str_replace('/', '-', $_POST["formfechaLimite"]))) : NULL;
+        $deuda->fechaMeta = isset($request->fechaMeta) ? $request->fechaMeta : NULL;
         $deuda->tipo = 2;
 
         DB::beginTransaction();
