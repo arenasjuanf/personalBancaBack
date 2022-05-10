@@ -23,10 +23,31 @@ class AhorrosController extends Controller
 
 
     public function traerAhorros($usuario, $tipo){
+        /*
         $sql = Ahorros::where([
             ['fk_id_usuario', $usuario],
             ['tipo', $tipo]
         ])->orderBy("created_at", "ASC")->get();
+        */
+
+
+        $sql = DB::select(DB::raw("SELECT *
+            FROM (
+                SELECT ahorros.nombre, ahorros.id, ahorros.tipo, ahorros.objetivo, ahorros.ahorrado, ahorros.intervalo, ahorros.tipo_ahorro,ahorros.fechaMeta, ahorros.created_at, 0 AS compartido
+                FROM ahorros
+                WHERE ahorros.fk_id_usuario = {$usuario}
+                UNION
+                SELECT ahorros.nombre, ahorros.id, ahorros.tipo, ahorros.objetivo, ahorros.ahorrado, ahorros.intervalo, ahorros.tipo_ahorro,ahorros.fechaMeta, ahorros.created_at, 1 AS compartido
+                FROM ahorros
+                join ahorros_compartidos
+                on ahorros_compartidos.fk_id_ahorro = ahorros.id
+                where ahorros_compartidos.fk_id_usuario = {$usuario}
+                ) result
+                where result.tipo = {$tipo}
+                GROUP BY result.nombre, result.id, result.tipo, result.objetivo, result.ahorrado, result.intervalo, result.tipo_ahorro,result.fechaMeta, result.created_at, result.compartido
+                ORDER BY result.created_at ASC
+            ")  
+        );
 
         return $sql;
     }
@@ -181,4 +202,6 @@ class AhorrosController extends Controller
 
         return $ahorro;
     }
+    
+    
 }

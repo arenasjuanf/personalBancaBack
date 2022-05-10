@@ -96,15 +96,15 @@ class UsuariosController extends Controller
 		$validarEmail = Usuarios::where('email', $request->email)->get();
 
 		if($validarEmail->isEmpty()){
-		$usuario = new Usuarios;
-		$usuario->email = $request->email;
-		$usuario->nombres = $request->nombres;
-		$usuario->apellidos = $request->apellidos;
-		$usuario->pass = Hash::make($request->pass, ['rounds' => 15]);
-		$usuario->pin = '0000';
+			$usuario = new Usuarios;
+			$usuario->email = $request->email;
+			$usuario->nombres = $request->nombres;
+			$usuario->apellidos = $request->apellidos;
+			$usuario->pass = Hash::make($request->pass, ['rounds' => 15]);
+			$usuario->pin = '0000';
+			
+			DB::beginTransaction();
 		
-		DB::beginTransaction();
-      
 		if($usuario->save()){	
 			DB::commit();
 			$resp["success"] = true;
