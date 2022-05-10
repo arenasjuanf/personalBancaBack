@@ -96,27 +96,27 @@ class UsuariosController extends Controller
 		$validarEmail = Usuarios::where('email', $request->email)->get();
 
 		if($validarEmail->isEmpty()){
-      $usuario = new Usuarios;
-      $usuario->email = $request->email;
-      $usuario->nombres = $request->nombres;
-      $usuario->apellidos = $request->apellidos;
-      $usuario->pass = Hash::make($request->pass, ['rounds' => 15]);
+			$usuario = new Usuarios;
+			$usuario->email = $request->email;
+			$usuario->nombres = $request->nombres;
+			$usuario->apellidos = $request->apellidos;
+			$usuario->pass = Hash::make($request->pass, ['rounds' => 15]);
 			$usuario->pin = '0000';
 			
 			DB::beginTransaction();
-      
-      if($usuario->save()){	
-				DB::commit();
-        $resp["success"] = true;
-        $resp["msj"] = "Se ha registrado correctamente";
-      }else{
-				DB::rollback();
-        $resp["msj"] = "No ha registrado";
-      }
-    }else{
-      $resp["msj"] = "El correo ya se encuentra registrado";
-		}	
 		
+		if($usuario->save()){	
+			DB::commit();
+			$resp["success"] = true;
+			$resp["msj"] = "Se ha registrado correctamente";
+		}else{
+			DB::rollback();
+			$resp["msj"] = "No ha registrado";
+		}
+		}else{
+			$resp["msj"] = "El correo ya se encuentra registrado";
+		}	
+			
 		return $resp;
 	}
 
@@ -126,7 +126,6 @@ class UsuariosController extends Controller
 
 	public function iniciarSesion($email, $pass){
 		$resp['success'] = false;
-
 		$usuario = Usuarios::where(array('email' => $email))->first(); 
 
 		if (is_object($usuario)) {
@@ -150,7 +149,7 @@ class UsuariosController extends Controller
 		$subject = "Pin recuperacion password - PersonalBanca";
 		$for = $correo;
 		Mail::send('email', $data, function($msj) use($subject,$for){
-				$msj->from("hysoporte018000@gmail.com","Personal Banca");
+				$msj->from("no-reply@apparqueo.com","Personal Banca");
 				$msj->subject($subject);
 				$msj->to($for);
 		});
